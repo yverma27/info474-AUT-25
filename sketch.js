@@ -5,7 +5,7 @@ let designWidth = 400;
 let designHeight= 400;
 let horizon ;
 function setup() {
-  createCanvas(designWidth,designHeight);
+  createCanvas(windowWidth,windowHeight);
   horizon =height/2;
 }
 
