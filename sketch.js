@@ -22,7 +22,7 @@ function draw() {
     background("lightblue"); // blue if above horizon
     
   } else {
-    background("grey"); // grey if below horizon
+    background("lightpink"); // light pink if below horizon
   }
 
   //sun
@@ -33,15 +33,15 @@ function draw() {
   fill("black");
   text('Hi! My name is Yuvika Verma', currentWidth/2, shapeHeight/2);
   
-
+ 
 
   // draw line for horizon
-  stroke('lavender');
+  stroke('purple');
   line(0,horizon,width,horizon);
 
   //grass
 
-  fill("lavender");
+  fill("purple");
 
   rect(0, horizon, width, height);
 
