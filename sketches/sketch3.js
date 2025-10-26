@@ -85,6 +85,15 @@ registerSketch('sk3', function (p) {
       p.line(x1, y1, x2, y2);
     }
 
+    // ms hand
+    p.push();
+    p.translate(clockX, clockY);
+    p.rotate(msProgress * p.TWO_PI - p.HALF_PI);
+    p.stroke(220, 60, 60);
+    p.strokeWeight(2);
+    p.line(0, 0, clockR - 10, 0);
+    p.pop();
+
 
 
 
