@@ -39,6 +39,12 @@ registerSketch('sk3', function (p) {
     p.fill(12, 10, 10, 180);
     p.ellipse(cx, cy + bookHeight / 2 + 22, bookWidth * 1.05, 40);
 
+    // draw spine / cover underside
+    p.fill(48, 40, 38);
+    p.rectMode(p.CENTER);
+    p.rect(cx, cy, bookWidth, bookHeight + 20, 8);
+
+
 
   };
   p.windowResized = function () { p.resizeCanvas(p.windowWidth, p.windowHeight); };
