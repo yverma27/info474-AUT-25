@@ -36,9 +36,8 @@ registerSketch('sk3', function (p) {
     const cy = p.height * 0.65; // book located near bottom part of canvas
     const bookWidth = Math.min(p.width * 0.7, totalPages * pageThickness + 200);
     const bookHeight = 120; // visible "edge" height
-    const stackCenterX = cx;
-    const leftBaseX = stackCenterX - gap / 2;
-    const rightBaseX = stackCenterX + gap / 2;
+    const leftBaseX = cx - gap / 2;
+    const rightBaseX = cx + gap / 2;
 
     // draw base shadow for book
     p.noStroke();
@@ -55,7 +54,13 @@ registerSketch('sk3', function (p) {
       const jitter = (i % 3) * 0.6 - 0.6; // small regular jitter
       const x = leftBaseX - i * pageThickness + jitter;
       p.fill(245 - (i % 6) * 2, 244, 240);
-      p.rect(x, cy, pageThickness + 0.5, bookHeight - Math.abs(jitter) * 4, 1);
+      p.noStroke();
+      p.quad(
+        x, cy - bookHeight / 2,
+        x + 2, cy - bookHeight / 2 + 2,
+        x + 2, cy + bookHeight / 2,
+        x, cy + bookHeight / 2 - 2
+      );
     }
 
     // draw right stack (pages yet to flip)
@@ -63,7 +68,13 @@ registerSketch('sk3', function (p) {
       const jitter = (i % 3) * 0.6 - 0.6;
       const x = rightBaseX + i * pageThickness + jitter;
       p.fill(250, 249 - (i % 5), 245 - (i % 7) * 2);
-      p.rect(x, cy, pageThickness + 0.5, bookHeight - Math.abs(jitter) * 4, 1);
+      p.noStroke();
+      p.quad(
+        x, cy - bookHeight / 2,
+        x + 2, cy - bookHeight / 2 + 2,
+        x + 2, cy + bookHeight / 2,
+        x, cy + bookHeight / 2 - 2
+      );
     }
 
     // compute ms hand progress (0..1) and draw small clock
