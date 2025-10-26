@@ -82,6 +82,11 @@ registerSketch('sk3', function (p) {
     p.strokeWeight(1);
     p.line(cx, cy - bookHeight / 2, cx, cy + bookHeight / 2);
 
+    // Small shadow for realism
+    p.noStroke();
+    p.fill(0, 30);
+    p.rect(cx, cy + bookHeight / 2 + 5, bookWidth, 4);
+
     // compute ms hand progress (0..1) and draw small clock
     const msNow = p.millis();
     const msProgress = (msNow % 1000) / 1000;
