@@ -52,6 +52,15 @@ registerSketch('sk3', function (p) {
       p.rect(x, cy, pageThickness + 0.5, bookHeight - Math.abs(jitter) * 4, 1);
     }
 
+    // draw right stack (pages yet to flip)
+    for (let i = 0; i < rightCount; i++) {
+      const jitter = (i % 3) * 0.6 - 0.6;
+      const x = rightBaseX + i * pageThickness + jitter;
+      p.fill(250, 249 - (i % 5), 245 - (i % 7) * 2);
+      p.rect(x, cy, pageThickness + 0.5, bookHeight - Math.abs(jitter) * 4, 1);
+    }
+
+
 
 
 
