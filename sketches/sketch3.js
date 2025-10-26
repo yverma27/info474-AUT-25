@@ -22,13 +22,24 @@ registerSketch('sk3', function (p) {
     return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
 
   }
-  
+
   p.draw = function () {
-    p.background(240, 200, 200);
-    p.fill(180, 60, 60);
-    p.textSize(32);
-    p.textAlign(p.CENTER, p.CENTER);
-    p.text('HWK #4. B', p.width / 2, p.height / 2);
+    p.background(32, 30, 28);
+
+    const cx = p.width / 2;
+    const cy = p.height * 0.65; // book located near bottom part of canvas
+    const bookWidth = Math.min(p.width * 0.7, totalPages * pageThickness + 200);
+    const bookHeight = 120; // visible "edge" height
+    const stackCenterX = cx;
+    const leftBaseX = stackCenterX - gap / 2;
+    const rightBaseX = stackCenterX + gap / 2;
+
+    // draw base shadow for book
+    p.noStroke();
+    p.fill(12, 10, 10, 180);
+    p.ellipse(cx, cy + bookHeight / 2 + 22, bookWidth * 1.05, 40);
+
+
   };
   p.windowResized = function () { p.resizeCanvas(p.windowWidth, p.windowHeight); };
 });
