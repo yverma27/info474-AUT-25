@@ -94,6 +94,17 @@ registerSketch('sk3', function (p) {
     p.line(0, 0, clockR - 10, 0);
     p.pop();
 
+    // check if a new flip should start (every full second)
+    if (!flipping && msNow - lastFlipTime >= 1000) {
+      if (rightCount > 0) {
+        flipping = true;
+        flipStart = msNow;
+        flipPageIndex = rightCount - 1; // topmost page from right stack
+      }
+      lastFlipTime = msNow;
+    }
+
+    
 
 
 
