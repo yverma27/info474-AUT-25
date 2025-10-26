@@ -121,6 +121,29 @@ registerSketch('sk3', function (p) {
     p.line(0, 0, clockR - 10, 0);
     p.pop();
 
+    // bookmark during break mode
+    if (breakMode) {
+      // Draw a bookmark ribbon in the middle
+      const bookmarkX = cx;
+      bookmarkY = p.lerp(bookmarkY || cy - 120, cy + bookHeight / 2, 0.1);
+      p.noStroke();
+      p.fill(220, 40, 60);
+      p.rect(bookmarkX, bookmarkY, 8, 140, 4);
+
+      // Text message
+      p.textAlign(p.CENTER);
+      p.textSize(18);
+      p.fill(255);
+      p.text('Take a short break 📘', p.width / 2, cy - bookHeight - 40);
+
+      // Resume after a few seconds
+      if (p.millis() - breakStartTime > breakDuration) {
+        breakMode = false;
+        bookmarkY = cy - 120;
+      }
+    }
+
+
     // check if a new flip should start (every full second)
     if (!flipping && msNow - lastFlipTime >= 1000) {
       if (rightCount > 0) {
