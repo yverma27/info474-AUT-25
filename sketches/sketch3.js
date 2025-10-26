@@ -130,11 +130,25 @@ registerSketch('sk3', function (p) {
       p.fill(220, 40, 60);
       p.rect(bookmarkX, bookmarkY, 8, 140, 4);
 
+      // calculate remaining break time
+      const elapsed = p.millis() - breakStartTime;
+      const remaining = Math.max(0, breakDuration - elapsed);
+      const remainingSeconds = Math.ceil(remaining / 1000);
+      const minutes = Math.floor(remainingSeconds / 60);
+      const seconds = remainingSeconds % 60;
+
+      // format time as MM:SS
+      const formattedTime =
+        (minutes < 10 ? '0' : '') + minutes + ':' +
+        (seconds < 10 ? '0' : '') + seconds;
+
       // Text message
       p.textAlign(p.CENTER);
       p.textSize(18);
       p.fill(255);
       p.text('Take a short break 📘', p.width / 2, cy - bookHeight - 40);
+      p.textSize(28);
+      p.text('Time remaining: ' + formattedTime, p.width / 2, cy - bookHeight - 25);
 
       // Resume after a few seconds
       if (p.millis() - breakStartTime > breakDuration) {
