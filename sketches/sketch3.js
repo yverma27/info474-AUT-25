@@ -1,6 +1,6 @@
 // Instance-mode sketch for tab 3
 registerSketch('sk3', function (p) {
-  let totalPages = 80;
+  let totalPages = 60;
   let leftCount = 0;
   let rightCount = totalPages;
   let pageThickness = 2.2; // visual thickness per page in px
@@ -14,7 +14,7 @@ registerSketch('sk3', function (p) {
   // break mode variables
   let breakMode = false;
   let breakStartTime = 0;
-  let breakDuration = 5000; // ms
+  let breakDuration = 300000; // ms
   let bookmarkY;
 
   p.setup = function () {
@@ -145,14 +145,14 @@ registerSketch('sk3', function (p) {
 
 
     // check if a new flip should start (every full second)
-    if (!flipping && !breakMode && msNow - lastFlipTime >= 1000) {
+    if (!flipping && !breakMode && msNow - lastFlipTime >= 60000) {
       if (rightCount > 0) {
         flipping = true;
         flipStart = msNow;
         flipPageIndex = rightCount - 1; // topmost page from right stack
 
-        // trigger a break after every 25 pages flipped
-        if (leftCount > 0 && leftCount % 25 === 0) {
+        // trigger a break after every 30 pages flipped
+        if (leftCount > 0 && leftCount % 30 === 0) {
           breakMode = true;
           breakStartTime = msNow;
         }
