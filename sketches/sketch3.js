@@ -89,15 +89,17 @@ registerSketch('sk3', function (p) {
 
     // compute ms hand progress (0..1) and draw small clock
     const msNow = p.millis();
-    const msProgress = (msNow % 1000) / 1000;
+    const secondProgress = Math.floor((msNow % 60000) / 1000) / 60;
     const clockR = 36;
     const clockX = p.width - 80;
     const clockY = 80;
 
      // clock background
-    p.fill(18, 18, 18, 220);
-    p.stroke(120);
-    p.strokeWeight(1);
+    //p.fill(18, 18, 18, 220);
+    //p.stroke(120);
+   // p.strokeWeight(1);
+    p.noStroke();
+    p.fill(255);
     p.ellipse(clockX, clockY, clockR * 2, clockR * 2);
 
 
@@ -115,7 +117,7 @@ registerSketch('sk3', function (p) {
     // ms hand
     p.push();
     p.translate(clockX, clockY);
-    p.rotate(msProgress * p.TWO_PI - p.HALF_PI);
+    p.rotate(secondProgress * p.TWO_PI - p.HALF_PI);
     p.stroke(220, 60, 60);
     p.strokeWeight(2);
     p.line(0, 0, clockR - 10, 0);
