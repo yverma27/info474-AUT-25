@@ -11,6 +11,12 @@ registerSketch('sk3', function (p) {
   let flipDuration = 420; // ms for a single page flip animation
   let flipPageIndex = 0;
 
+  // break mode variables
+  let breakMode = false;
+  let breakStartTime = 0;
+  let breakDuration = 5000; // ms
+  let bookmarkY;
+
   p.setup = function () {
     p.createCanvas(p.windowWidth, p.windowHeight);
     p.textFont('Helvetica');
