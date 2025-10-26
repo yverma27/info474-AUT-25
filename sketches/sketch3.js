@@ -145,11 +145,17 @@ registerSketch('sk3', function (p) {
 
 
     // check if a new flip should start (every full second)
-    if (!flipping && msNow - lastFlipTime >= 1000) {
+    if (!flipping && !breakMode && msNow - lastFlipTime >= 1000) {
       if (rightCount > 0) {
         flipping = true;
         flipStart = msNow;
         flipPageIndex = rightCount - 1; // topmost page from right stack
+
+        // trigger a break after every 25 pages flipped
+        if (leftCount > 0 && leftCount % 25 === 0) {
+          breakMode = true;
+          breakStartTime = msNow;
+        }
       }
       lastFlipTime = msNow;
     }
