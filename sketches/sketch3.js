@@ -74,6 +74,19 @@ registerSketch('sk3', function (p) {
     p.ellipse(clockX, clockY, clockR * 2, clockR * 2);
 
 
+    // ticks
+    p.stroke(80);
+    for (let a = 0; a < 12; a++) {
+      const ang = a * p.TWO_PI / 12 - p.HALF_PI;
+      const x1 = clockX + Math.cos(ang) * (clockR - 6);
+      const y1 = clockY + Math.sin(ang) * (clockR - 6);
+      const x2 = clockX + Math.cos(ang) * (clockR - 2);
+      const y2 = clockY + Math.sin(ang) * (clockR - 2);
+      p.line(x1, y1, x2, y2);
+    }
+
+
+
 
 
 
