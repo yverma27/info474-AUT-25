@@ -104,7 +104,47 @@ registerSketch('sk3', function (p) {
       lastFlipTime = msNow;
     }
 
-    
+    // draw flipping page if active
+    if (flipping) {
+      const tRaw = (msNow - flipStart) / flipDuration;
+      const t = p.constrain(tRaw, 0, 1);
+      const eased = easeInOutQuad(t);
+
+      // start and end positions
+      const startX = rightBaseX + flipPageIndex * pageThickness;
+      const endX = leftBaseX - leftCount * pageThickness;
+      const x = p.lerp(startX, endX, eased);
+
+      // arc movement (upwards then down)
+      const arcAmplitude = 50;
+      const y = cy - Math.sin(eased * p.PI) * arcAmplitude;
+
+      // rotation to simulate flipping edge (rotate around vertical axis -> mimic by scaling x)
+      const flipAngle = p.lerp(0, p.PI, eased);
+      const shear = p.sin(flipAngle) * 0.8;
+
+      p.push();
+      p.translate(x, y);
+      // slight tilt for realism
+      p.rotate(p.map(eased, 0, 1, -0.05, 0.05));
+      // simulate 3D flip by skewing width via scaleX
+      const pageW = pageThickness + 0.5;
+      const pageH = bookHeight - 10;
+      // fake 3D by changing width
+      const visibleWidth = Math.max(0.6, Math.cos(flipAngle)) * (pageW * 8);
+      p.noStroke();
+      p.fill(255, 250, 245);
+      p.rectMode(p.CENTER);
+      p.rect(0, 0, visibleWidth, pageH, 1);
+      p.pop();
+
+      // finish flip
+      if (t >= 1) {
+        flipping = false;
+        rightCount = Math.max(0, rightCount - 1);
+        leftCount = Math.min(totalPages, leftCount + 1);
+      }
+    }
 
 
 
