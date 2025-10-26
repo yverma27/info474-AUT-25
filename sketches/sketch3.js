@@ -17,6 +17,12 @@ registerSketch('sk3', function (p) {
     lastFlipTime = p.millis();
 
   };
+
+  function easeInOutQuad(t) {
+    return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+
+  }
+  
   p.draw = function () {
     p.background(240, 200, 200);
     p.fill(180, 60, 60);
