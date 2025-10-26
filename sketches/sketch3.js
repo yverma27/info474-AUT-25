@@ -67,6 +67,13 @@ registerSketch('sk3', function (p) {
     const clockX = p.width - 80;
     const clockY = 80;
 
+     // clock background
+    p.fill(18, 18, 18, 220);
+    p.stroke(120);
+    p.strokeWeight(1);
+    p.ellipse(clockX, clockY, clockR * 2, clockR * 2);
+
+
 
 
 
