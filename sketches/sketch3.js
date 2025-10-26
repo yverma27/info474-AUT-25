@@ -60,6 +60,13 @@ registerSketch('sk3', function (p) {
       p.rect(x, cy, pageThickness + 0.5, bookHeight - Math.abs(jitter) * 4, 1);
     }
 
+    // compute ms hand progress (0..1) and draw small clock
+    const msNow = p.millis();
+    const msProgress = (msNow % 1000) / 1000;
+    const clockR = 36;
+    const clockX = p.width - 80;
+    const clockY = 80;
+
 
 
 
