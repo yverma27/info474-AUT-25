@@ -147,10 +147,17 @@ registerSketch('sk3', function (p) {
     }
 
 
-
-
-
-
+    // small labels
+    p.noStroke();
+    p.fill(190);
+    p.textSize(12);
+    p.textAlign(p.CENTER, p.CENTER);
+    p.text('pages left: ' + rightCount, rightBaseX + 30, cy + bookHeight / 2 + 18);
+    p.text('pages flipped: ' + leftCount, leftBaseX - 30, cy + bookHeight / 2 + 18);
   };
-  p.windowResized = function () { p.resizeCanvas(p.windowWidth, p.windowHeight); };
+
+
+  p.windowResized = function () { 
+    p.resizeCanvas(p.windowWidth, p.windowHeight); 
+  };
 });
