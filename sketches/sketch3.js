@@ -16,6 +16,7 @@ registerSketch('sk3', function (p) {
   let breakStartTime = 0;
   let breakDuration = 300000; // ms
   let bookmarkY;
+  let cx, cy;
 
   p.setup = function () {
     p.createCanvas(p.windowWidth, p.windowHeight);
@@ -32,9 +33,12 @@ registerSketch('sk3', function (p) {
   p.draw = function () {
     p.background(32, 30, 28);
 
-    const cx = p.width / 2;
-    const cy = p.height * 0.65; // book located near bottom part of canvas
-    const bookWidth = Math.min(p.width * 0.7, totalPages * pageThickness + 200);
+    cx = p.width / 2;
+    cy = p.height * 0.65; // book located near bottom part of canvas
+    const coverPadding = 40;
+    const bookWidth = totalPages * pageThickness + gap + coverPadding * 2;
+    const maxBookWidth = p.width * 0.9;
+    const finalBookWidth = Math.min(bookWidth, maxBookWidth);
     const bookHeight = 120; // visible "edge" height
     const leftBaseX = cx - gap / 2;
     const rightBaseX = cx + gap / 2;
@@ -47,7 +51,7 @@ registerSketch('sk3', function (p) {
     // draw spine / cover underside
     p.fill(48, 40, 38);
     p.rectMode(p.CENTER);
-    p.rect(cx, cy, bookWidth, bookHeight + 20, 8);
+    p.rect(cx, cy, finalBookWidth, bookHeight + 20, 8);
 
     // draw left stack (pages already flipped)
     for (let i = 0; i < leftCount; i++) {
@@ -126,13 +130,30 @@ registerSketch('sk3', function (p) {
     p.line(0, 0, clockR - 10, 0);
     p.pop();
 
+    // interactive bookmark
+    let bookmarkHovered = false;
+    const bookmarkX = cx;
+    const bookmarkWidth = 20;
+    const bookmarkHeight = 140;
     // bookmark during break mode
     if (breakMode) {
-      // Draw a bookmark ribbon in the middle
-      const bookmarkX = cx;
+      if (
+        p.mouseX > bookmarkX - bookmarkWidth / 2 &&
+        p.mouseX < bookmarkX + bookmarkWidth / 2 &&
+        p.mouseY > bookmarkY - bookmarkHeight / 2 &&
+        p.mouseY < bookmarkY + bookmarkHeight / 2
+      ) {
+        bookmarkHovered = true;
+      }
       bookmarkY = p.lerp(bookmarkY || cy - 120, cy + bookHeight / 2, 0.1);
       p.noStroke();
-      p.fill(220, 40, 60);
+      if(bookmarkHovered){
+        p.fill(255, 80, 80);
+        bookmarkY += Math.sin(p.frameCount * 0.2) * 1.5;
+
+      } else{
+        p.fill(240, 40, 60);
+      }
       p.rect(bookmarkX, bookmarkY, 8, 140, 4);
 
       // calculate remaining break time
@@ -154,12 +175,20 @@ registerSketch('sk3', function (p) {
       p.text('Take a short break 📘', p.width / 2, cy - bookHeight - 40);
       p.textSize(18);
       p.text('Time remaining: ' + formattedTime, p.width / 2, cy - bookHeight - 25 + 40);
+      p.fill(200);
+      p.textSize(14);
+      p.text('Click the bookmark to end break early', p.width / 2, cy - bookHeight - 25 + 65);
 
       // Resume after a few seconds
       if (p.millis() - breakStartTime > breakDuration) {
         breakMode = false;
         bookmarkY = cy - 120;
       }
+    } else if (bookmarkY && bookmarkY < cy - 120) {
+      bookmarkY = p.lerp(bookmarkY, cy - 120, 0.1);
+      p.noStroke();
+      p.fill(240, 40, 60);
+      p.rect(bookmarkX, bookmarkY, 8, 140, 4);
     }
 
 
@@ -254,4 +283,24 @@ registerSketch('sk3', function (p) {
   p.windowResized = function () { 
     p.resizeCanvas(p.windowWidth, p.windowHeight); 
   };
+
+  p.mousePressed = function() {
+    if (breakMode) {
+      const cx = p.width / 2;
+      const bookmarkX = cx;
+      const bookmarkWidth = 20;
+      const bookmarkHeight = 140;
+      if (
+        p.mouseX > bookmarkX - bookmarkWidth / 2 &&
+        p.mouseX < bookmarkX + bookmarkWidth / 2 &&
+        p.mouseY > bookmarkY - bookmarkHeight / 2 &&
+        p.mouseY < bookmarkY + bookmarkHeight / 2 
+      ) {
+        breakMode = false;
+        bookmarkY = cy - 120;
+      }
+    }
+  };
 });
+
+
