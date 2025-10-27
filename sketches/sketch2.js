@@ -94,8 +94,6 @@ registerSketch('sk2', function (p) {
     p.background(ambient, ambient * 0.95, ambient * 0.7);
 
     // glowing aura around bulb
-    //p.fill(255, 255, 150, brightness * 0.4);
-    //p.ellipse(p.width / 2, p.height / 2, 300 + brightness / 2);
     let auraW = 200 + brightness * 0.6;
     let auraH = 260 + brightness * 0.8;
     for (let i = 0; i < 4; i++) {
