@@ -58,7 +58,46 @@ registerSketch('sk2', function (p) {
       }
     }
 
-  }
+    // background brightness based on bulb brightness
+    let ambient = p.map(brightness, 0, 255, 20, 220);
+    p.background(ambient, ambient * 0.95, ambient * 0.7);
+
+    // glowing aura around bulb
+    p.fill(255, 255, 150, brightness * 0.4);
+    p.ellipse(p.width / 2, p.height / 2, 300 + brightness / 2);
+
+    // bulb shape 
+    p.fill(255, 255, 200, brightness);
+    p.ellipse(p.width / 2, p.height / 2, 200, 260);
+
+    // bulb base
+    p.fill(100);
+    p.rect(p.width / 2 - 50, p.height / 2 + 100, 100, 60, 10);
+
+    // timer display
+    p.fill(0);
+    p.textSize(28);
+    if (totalTime > 0) {
+      let timeLeft = Math.max(0, totalTime - elapsedTime);
+      let minutesLeft = Math.floor(timeLeft / 60);
+      let secondsLeft = Math.floor(timeLeft % 60);
+      p.text(
+        p.nf(minutesLeft, 2) + ':' + p.nf(secondsLeft, 2),
+        p.width / 2,
+        p.height - 80
+      );
+    }
+
+    // end state - full glowing bulb
+    if (!running && totalTime > 0 && brightness === 255) {
+      let glow = 200 + 55 * Math.sin(p.millis() / 200);
+      p.fill(255, 255, 150, glow * 0.4);
+      p.ellipse(p.width / 2, p.height / 2, 350 + glow / 10);
+      p.fill(0);
+      p.textSize(24);
+      p.text('Session complete! Time to take a break 💡', p.width / 2, 100);
+    }
+  };
 
 
   p.windowResized = function () { p.resizeCanvas(p.windowWidth, p.windowHeight); };
