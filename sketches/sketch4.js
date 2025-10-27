@@ -95,8 +95,22 @@ registerSketch('sk4', function (p) {
       p.text("Time left: " + p.nf(minutesLeft, 2) + ":" + p.nf(secondsLeft, 2), p.width / 2, y + batteryHeight + 90);
     }
 
-    
-
+    // end message
+    if (!timerRunning && totalTime > 0 && timeLeft === 0) {
+      p.fill(200, 0, 0);
+      p.textSize(24);
+      p.text("Time for a recharge - take a break!", p.width / 2, y + batteryHeight + 120);
+      startButton.show();
+      startButton.html('Start New Timer');
+    }
   };
+
+  function getBatteryColor(level) {
+    if (level > 0.75) return p.color (0, 200, 0); // green
+    if (level > 0.5) return p.color(255, 200, 0); // yellow
+    if (level > 0.25) return p.color(255, 140, 0); // orange
+    return p.color(255, 0, 0); // red
+  }
+  
   p.windowResized = function () { p.resizeCanvas(p.windowWidth, p.windowHeight); };
 });
