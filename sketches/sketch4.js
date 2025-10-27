@@ -57,6 +57,26 @@ registerSketch('sk4', function (p) {
 
     let batteryLevel = timeLeft / totalTime
     let batteryColor = getBatteryColor(batteryLevel);
+
+    // battery position
+    let x = p.width / 2 - batteryWidth / 2;
+    let y = p.height / 2 - batteryHeight / 2;
+
+    //draw battery outline
+    p.stroke(8);
+    p.strokeWeight(3);
+    p.noFill();
+    p.rect(x, y, batteryWidth, batteryHeight, 10);
+
+    //battery positive terminal
+    p.rect(x + batteryWidth, y + batteryHeight / 3, 20, batteryHeight / 3, 3);
+
+    //fill battery
+    p.noStroke(); 
+    p.fill(batteryColor);
+    p.rect(x, y, batteryWidth * batteryLevel, batteryHeight, 10);
+
+    
   };
   p.windowResized = function () { p.resizeCanvas(p.windowWidth, p.windowHeight); };
 });
