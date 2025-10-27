@@ -1,5 +1,14 @@
 // Instance-mode sketch for tab 4
 registerSketch('sk4', function (p) {
+  let totalTime = 0;
+  let timeLeft = 0;
+  let timerRunning = false;
+  let startButton;
+  let startTime;
+  let batteryWidth = 500;
+  let batteryHeight = 180;
+
+
   p.setup = function () {
     p.createCanvas(p.windowWidth, p.windowHeight);
   };
