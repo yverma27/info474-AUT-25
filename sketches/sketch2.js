@@ -1,5 +1,16 @@
 // Instance-mode sketch for tab 2
 registerSketch('sk2', function (p) {
+  let totalTime = 0;
+  let elapsedTime = 0;
+  let startTime = 0;
+  let running = false;
+  let brightness = 0;
+
+  let buttons = [];
+  let times = [15, 30, 45, 60]; // in minutes
+  let buttonsContainer;
+  
+
   p.setup = function () {
     p.createCanvas(p.windowWidth, p.windowHeight);
   };
