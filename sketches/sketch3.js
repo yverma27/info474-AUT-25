@@ -234,7 +234,7 @@ registerSketch('sk3', function (p) {
 
 
     // check if a new flip should start (every full second)
-    if (!flipping && !breakMode && msNow - lastFlipTime >= 1000) {
+    if (!flipping && !breakMode && msNow - lastFlipTime >= 60000) {
       if (rightCount > 0) {
         flipping = true;
         flipStart = msNow;
@@ -257,7 +257,6 @@ registerSketch('sk3', function (p) {
 
 
       // page positions
-      //const spineX = cx; // center of book
       const leftEdgeX = leftBaseX - leftCount * pageThickness; // where page lands
       const rightEdgeX = rightBaseX + flipPageIndex * pageThickness; // current right stack
 
