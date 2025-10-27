@@ -30,14 +30,36 @@ registerSketch('sk2', function (p) {
       btn.mousePressed(() => startTimer(min));
       buttons.push(btn);
     });
-      
+          
   };
+
+  function startTimer(minutes) {
+    totalTime = minutes * 60; // convert to seconds
+    elapsedTime = 0;
+    startTime = p.millis();
+    running = true;
+    brightness = 0;
+
+    // hide buttons
+    buttons.forEach(b => b.hide());
+  }
   p.draw = function () {
-    p.background(220);
-    p.fill(100, 150, 240);
-    p.textSize(32);
-    p.textAlign(p.CENTER, p.CENTER);
-    p.text('HWK #4. A', p.width / 2, p.height / 2);
-  };
+    p.background(20);
+
+    if (running) {
+      elapsedTime = (p.millis() - startTime) / 1000; // in seconds
+      brightness = p.map(elapsedTime, 0, totalTime, 0, 255, true);
+
+      if (elaspedTime >= totalTime) {
+        brightness = 255;
+        running = false;
+        // show buttons again
+        buttons.forEach(b => b.show());
+      }
+    }
+
+  }
+
+
   p.windowResized = function () { p.resizeCanvas(p.windowWidth, p.windowHeight); };
 });
