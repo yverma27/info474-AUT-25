@@ -64,7 +64,9 @@ registerSketch('sk3', function (p) {
     }
 
     // draw right stack (pages yet to flip)
-    for (let i = 0; i < rightCount; i++) {
+    let topPageIndex = flipping ? rightCount - 1 : -1;
+    for (let i = 0; i < rightCount - 1; i++) {
+      if (i === topPageIndex) continue; // skip top page if flipping
       const jitter = (i % 3) * 0.6 - 0.6;
       const x = rightBaseX + i * pageThickness + jitter;
       p.fill(250, 249 - (i % 5), 245 - (i % 7) * 2);
@@ -91,8 +93,9 @@ registerSketch('sk3', function (p) {
     const msNow = p.millis();
     const secondProgress = Math.floor((msNow % 60000) / 1000) / 60;
     const clockR = 36;
+    const extraOffset = breakMode ? 60 : 0;
     const clockX = cx + bookWidth / 2 - 60;
-    const clockY = cy - bookHeight * 1.5;
+    const clockY = cy - bookHeight * 1.5 - extraOffset;
 
      // clock background
     //p.fill(18, 18, 18, 220);
@@ -146,11 +149,11 @@ registerSketch('sk3', function (p) {
 
       // Text message
       p.textAlign(p.CENTER);
-      p.textSize(18);
+      p.textSize(28);
       p.fill(255);
       p.text('Take a short break 📘', p.width / 2, cy - bookHeight - 40);
-      p.textSize(28);
-      p.text('Time remaining: ' + formattedTime, p.width / 2, cy - bookHeight - 25);
+      p.textSize(18);
+      p.text('Time remaining: ' + formattedTime, p.width / 2, cy - bookHeight - 25 + 40);
 
       // Resume after a few seconds
       if (p.millis() - breakStartTime > breakDuration) {
@@ -161,7 +164,7 @@ registerSketch('sk3', function (p) {
 
 
     // check if a new flip should start (every full second)
-    if (!flipping && !breakMode && msNow - lastFlipTime >= 60000) {
+    if (!flipping && !breakMode && msNow - lastFlipTime >= 1000) {
       if (rightCount > 0) {
         flipping = true;
         flipStart = msNow;
@@ -182,35 +185,53 @@ registerSketch('sk3', function (p) {
       const t = p.constrain(tRaw, 0, 1);
       const eased = easeInOutQuad(t);
 
-      // start and end positions
-      const startX = rightBaseX + flipPageIndex * pageThickness;
-      const endX = leftBaseX - leftCount * pageThickness;
-      const x = p.lerp(startX, endX, eased);
-      const lift = Math.sin(eased * p.PI) * 60; // lifted higher
 
-      // rotation to simulate flipping edge (rotate around vertical axis -> mimic by scaling x)
-      const flipAngle = p.lerp(0, p.PI, eased);
+      // page positions
+      const spineX = cx; // center of book
+      const leftEdgeX = leftBaseX - leftCount * pageThickness; // where page lands
+      const rightEdgeX = rightBaseX + flipPageIndex * pageThickness; // current right stack
 
-      p.push();
-      p.translate(x, cy - lift);
-      // slight tilt for realism
-      p.rotate(p.map(eased, 0, 1, -0.1, 0.1));
-      p.fill(255, 250, 245);
-      p.noStroke();
+      const topLeftY = cy - bookHeight / 2;
+      const bottomLeftY = cy + bookHeight / 2;
+      const topRightY = cy - bookHeight / 2;
+      const bottomRightY = cy + bookHeight / 2;
 
-      // simulate 3D flip by skewing width via scaleX
-      const pageW = 120;
-      const pageH = 160;
-      const depth = Math.sin(flipAngle) * 80;
+      // lift/curl parameters
+      const topLift = Math.sin(eased * Math.PI) * 40; // top corner lift
+      const bottomLift = Math.sin(eased * Math.PI) * 15; // bottom corner lift
+      const strips = 25; // number of vertical strips for curl
 
-      p.quad(
-        -pageW / 2, -pageH / 2,
-        pageW / 2, -pageH / 2,
-        pageW / 2 - depth, pageH / 2,
-        -pageW / 2 - depth, pageH / 2
-      );
+      for (let i = 0; i < strips; i++) {
+        const xi = i / (strips - 1); // 0 = spine, 1 = moving edge
 
-      p.pop();
+        // horizontal positions of this strip
+        const xLeft = leftEdgeX - pageThickness; // spine stays fixed
+        const xRight = p.lerp(rightEdgeX, leftEdgeX, eased * xi); // moving edge lerps toward left
+
+        // vertical curl using sin curve (stronger near free edge)
+        const curlTop = topLift * Math.sin(Math.PI * xi);
+        const curlBottom = bottomLift * Math.sin(Math.PI * xi);
+
+        // draw page strip
+        p.fill(255, 250, 245);
+        p.noStroke();
+        p.quad(
+          xLeft, topLeftY - curlTop,
+          xLeft, bottomLeftY - curlBottom,
+          xRight, bottomRightY - curlBottom,
+          xRight, topRightY - curlTop
+        );
+
+        // draw shadow along moving edge
+        const shadowAlpha = p.map(xi, 0, 1, 0, 50); // stronger near free edge
+        p.fill(0, shadowAlpha);
+        p.quad(
+          xRight - 1, topRightY - curlTop,
+          xRight, topRightY - curlTop,
+          xRight, bottomRightY - curlBottom,
+          xRight - 1, bottomRightY - curlBottom
+        );
+      }
 
       if (t >= 1) {
         flipping = false;
