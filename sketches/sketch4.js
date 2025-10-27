@@ -24,7 +24,7 @@ registerSketch('sk4', function (p) {
   };
 
   function promptUser() {
-    let userInput = p.prompt("Enter your study session length (in minutes):");
+    let userInput = window.prompt("Enter your study session length (in minutes):");
     let minutes = parseFloat(userInput);
 
     if (!isNaN(minutes) && minutes > 0) {
@@ -34,7 +34,7 @@ registerSketch('sk4', function (p) {
       timerRunning = true;
       startButton.hide();
     } else {
-      p.alert("Please enter a valid number.");
+      window.alert("Please enter a valid number.");
     }
   }
 
@@ -50,7 +50,7 @@ registerSketch('sk4', function (p) {
       if(timeLeft <= 0){
         timeLeft = 0;
         timerRunning = false;
-        p.alert("Time's up!");
+        window.alert("Time's up!");
         startButton.show();
       }
     }
@@ -111,6 +111,6 @@ registerSketch('sk4', function (p) {
     if (level > 0.25) return p.color(255, 140, 0); // orange
     return p.color(255, 0, 0); // red
   }
-  
+
   p.windowResized = function () { p.resizeCanvas(p.windowWidth, p.windowHeight); };
 });
