@@ -7,7 +7,7 @@ registerSketch('sk2', function (p) {
   let brightness = 0;
 
   let buttons = [];
-  let times = [15, 30, 45, 60]; // in minutes
+  let times = [1, 15, 30, 45, 60]; // in minutes
   let buttonsContainer;
 
   p.setup = function () {
@@ -46,11 +46,42 @@ registerSketch('sk2', function (p) {
   p.draw = function () {
     p.background(20);
 
+    if(!running && brightness === 0){
+      p.background(40, 40, 60);
+      let pulse = 40 + 25 + Math.sin(p.millis() / 600);
+
+      p.noStroke();
+      p.fill(255, 255, 180, pulse);
+      p.ellipse(p.width / 2, p.height / 2, 250 + pulse / 3);
+
+      // lightbulb outline
+      p.stroke(255, 240, 200, 80);
+      p.strokeWeight(2);
+      p.noFill();
+      p.ellipse(p.width / 2, p.height / 2, 200, 260);
+
+      // bulb base
+      p.noStroke();
+      p.fill(120);
+      p.rect(p.width / 2 - 45, p.height / 2 + 100, 90, 55, 10);
+
+      p.fill(255, 255, 200, pulse * 2);
+      p.ellipse(p.width / 2, p.height / 2 - 40, 60 + pulse / 4);
+
+      // instructions
+      p.noStroke();
+      p.fill(240);
+      p.textSize(20);
+      p.textAlign(p.CENTER);
+      p.text('Select a session length to start the timer 💡', p.width / 2, p.height - 80);
+      return;
+    }
+
     if (running) {
       elapsedTime = (p.millis() - startTime) / 1000; // in seconds
       brightness = p.map(elapsedTime, 0, totalTime, 0, 255, true);
 
-      if (elaspedTime >= totalTime) {
+      if (elapsedTime >= totalTime) {
         brightness = 255;
         running = false;
         // show buttons again
