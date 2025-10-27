@@ -206,7 +206,7 @@ registerSketch('sk3', function (p) {
 
         // horizontal positions of this strip
         const xLeft = leftEdgeX - pageThickness; // spine stays fixed
-        const xRight = p.lerp(rightEdgeX, leftEdgeX, eased * xi); // moving edge lerps toward left
+        const xRight = p.lerp(rightEdgeX, leftEdgeX, eased); // moving edge lerps toward left
 
         // vertical curl using sin curve (stronger near free edge)
         const curlTop = topLift * Math.sin(Math.PI * xi);
