@@ -62,21 +62,32 @@ registerSketch('sk4', function (p) {
     let x = p.width / 2 - batteryWidth / 2;
     let y = p.height / 2 - batteryHeight / 2;
 
-    //draw battery outline
+    // draw battery outline
     p.stroke(8);
     p.strokeWeight(3);
     p.noFill();
     p.rect(x, y, batteryWidth, batteryHeight, 10);
 
-    //battery positive terminal
+    // battery positive terminal
     p.rect(x + batteryWidth, y + batteryHeight / 3, 20, batteryHeight / 3, 3);
 
-    //fill battery
+    // fill battery
     p.noStroke(); 
     p.fill(batteryColor);
     p.rect(x, y, batteryWidth * batteryLevel, batteryHeight, 10);
 
-    
+    // draw percentage text
+    p.fill(0);
+    p.textSize(18);
+    for (let i = 0; i <= 10; i++) {
+      let percent = i * 10;
+      let labelY = y + batteryHeight + 40;
+      let labelX = x + (batteryWidth * (i / 10));
+      p.text(percent + "%", labelX, labelY);
+    }
+
+    // hover display for time left
+
   };
   p.windowResized = function () { p.resizeCanvas(p.windowWidth, p.windowHeight); };
 });
