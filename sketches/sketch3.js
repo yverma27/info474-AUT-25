@@ -20,7 +20,7 @@ registerSketch('sk3', function (p) {
   let bookOpenProgress = 0; // 0 = closed, 1 = fully open
 
   p.setup = function () {
-    p.createCanvas(p.windowWidth, p.windowHeight);
+    p.createCanvas(800, 800);
     p.textFont('Helvetica');
     lastFlipTime = p.millis();
 
@@ -341,7 +341,6 @@ registerSketch('sk3', function (p) {
         return;
       }
     }
-
 
 
     if (breakMode) {
