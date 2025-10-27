@@ -104,7 +104,6 @@ registerSketch('sk2', function (p) {
       p.ellipse(p.width / 2, p.height / 2, auraW + i * 30, auraH + i * 40); 
     }
 
-
     // bulb shape 
     p.fill(255, 255, 200, brightness);
     p.ellipse(p.width / 2, p.height / 2, 200, 260);
