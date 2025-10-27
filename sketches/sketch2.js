@@ -9,10 +9,28 @@ registerSketch('sk2', function (p) {
   let buttons = [];
   let times = [15, 30, 45, 60]; // in minutes
   let buttonsContainer;
-  
 
   p.setup = function () {
-    p.createCanvas(p.windowWidth, p.windowHeight);
+    let canvas = p.createCanvas(800, 800);
+    canvas.parent('sketch-container-sk2');
+    p.textAlign(p.CENTER, p.CENTER);
+    p.noStroke();
+
+    // create time selection buttons
+    buttonsContainer = p.createDiv('');
+    buttonsContainer.parent('sketch-container-sk2');
+    buttonsContainer.style('margin-top', '20px');
+
+    times.forEach((min) => {
+      let btn = p.createButton(min + ' min');
+      btn.parent(buttonsContainer);
+      btn.style('font-size', '16px');
+      btn.style('margin', '5px');
+      btn.style('padding', '10px 20px');
+      btn.mousePressed(() => startTimer(min));
+      buttons.push(btn);
+    });
+      
   };
   p.draw = function () {
     p.background(220);
