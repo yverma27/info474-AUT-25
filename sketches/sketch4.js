@@ -87,6 +87,15 @@ registerSketch('sk4', function (p) {
     }
 
     // hover display for time left
+    if (p.mouseX > x && p.mouseX < x + batteryWidth && p.mouseY > y && p.mouseY < y + batteryHeight) {
+      let minutesLeft = Math.floor(timeLeft / 60);
+      let secondsLeft = Math.floor(timeLeft % 60);
+      p.fill(0);
+      p.textSize(22);
+      p.text("Time left: " + p.nf(minutesLeft, 2) + ":" + p.nf(secondsLeft, 2), p.width / 2, y + batteryHeight + 90);
+    }
+
+    
 
   };
   p.windowResized = function () { p.resizeCanvas(p.windowWidth, p.windowHeight); };
