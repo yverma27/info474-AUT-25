@@ -10,13 +10,14 @@ registerSketch('sk3', function (p) {
   let flipStart = 0;
   let flipDuration = 420; // ms for a single page flip animation
   let flipPageIndex = 0;
-
-  // break mode variables
   let breakMode = false;
   let breakStartTime = 0;
   let breakDuration = 300000; // ms
   let bookmarkY;
   let cx, cy;
+
+  let started = false;
+  let bookOpenProgress = 0; // 0 = closed, 1 = fully open
 
   p.setup = function () {
     p.createCanvas(p.windowWidth, p.windowHeight);
@@ -42,6 +43,46 @@ registerSketch('sk3', function (p) {
     const bookHeight = 120; // visible "edge" height
     const leftBaseX = cx - gap / 2;
     const rightBaseX = cx + gap / 2;
+
+    // START BUTTON & CLOSED BOOK
+    if (!started) {
+    // CLOSED BOOK COVER
+    const coverWidth = 200; // full rectangle width
+    const coverHeight = 140; // full rectangle height
+    p.rectMode(p.CENTER);
+    p.fill(48, 40, 38);
+    p.noStroke();
+    p.rect(cx, cy, coverWidth, coverHeight, 8);
+
+    // START BUTTON
+    const btnWidth = 120;
+    const btnHeight = 50;
+    const btnX = cx;
+    const btnY = cy + 80; // just below cover
+    const hovering = p.mouseX > btnX - btnWidth/2 &&
+                    p.mouseX < btnX + btnWidth/2 &&
+                    p.mouseY > btnY - btnHeight/2 &&
+                    p.mouseY < btnY + btnHeight/2;
+    p.fill(hovering ? 70 : 50);
+    p.stroke(255);
+    p.strokeWeight(2);
+    p.rect(btnX, btnY, btnWidth, btnHeight, 8);
+
+    p.noStroke();
+    p.fill(255);
+    p.textAlign(p.CENTER, p.CENTER);
+    p.textSize(24);
+    p.text("START", btnX, btnY);
+
+    return; // skip flipping until started
+    }
+
+    if (started && bookOpenProgress < 1) {
+      bookOpenProgress += 0.02;
+    }
+    const currentGap = gap * bookOpenProgress;
+    const currentLeftX = cx - currentGap / 2;
+    const currentRightX = cx + currentGap / 2;
 
     // draw base shadow for book
     p.noStroke();
@@ -216,7 +257,7 @@ registerSketch('sk3', function (p) {
 
 
       // page positions
-      const spineX = cx; // center of book
+      //const spineX = cx; // center of book
       const leftEdgeX = leftBaseX - leftCount * pageThickness; // where page lands
       const rightEdgeX = rightBaseX + flipPageIndex * pageThickness; // current right stack
 
@@ -285,6 +326,24 @@ registerSketch('sk3', function (p) {
   };
 
   p.mousePressed = function() {
+    const cx = p.width / 2;
+
+    if (!started) {
+      const btnX = cx;
+      const btnY = cy + 80;
+      const btnWidth = 120;
+      const btnHeight = 50;
+      if (p.mouseX > btnX - btnWidth/2 &&
+          p.mouseX < btnX + btnWidth/2 &&
+          p.mouseY > btnY - btnHeight/2 &&
+          p.mouseY < btnY + btnHeight/2) {
+        started = true;
+        return;
+      }
+    }
+
+
+
     if (breakMode) {
       const cx = p.width / 2;
       const bookmarkX = cx;
