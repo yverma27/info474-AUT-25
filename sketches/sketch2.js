@@ -7,7 +7,7 @@ registerSketch('sk2', function (p) {
   let brightness = 0;
 
   let buttons = [];
-  let times = [1, 15, 30, 45, 60]; // in minutes
+  let times = [15, 30, 45, 60]; // in minutes
   let buttonsContainer;
 
   p.setup = function () {
