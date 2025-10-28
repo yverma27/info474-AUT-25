@@ -110,10 +110,25 @@ registerSketch('sk2', function (p) {
     p.fill(100);
     p.rect(p.width / 2 - 50, p.height / 2 + 100, 100, 60, 10);
 
-    // timer display
-    p.fill(0);
+    
+    // timer text display with adaptive contrast
     p.textSize(28);
-    if (totalTime > 0) {
+    // adjust text color based on brightness
+    if (brightness < 100) {
+      // when room is dark, use bright text with glow
+      p.fill(255);
+      p.text(p.nf(Math.floor((totalTime - elapsedTime) / 60), 2) + ':' +
+            p.nf(Math.floor((totalTime - elapsedTime) % 60), 2),
+            p.width / 2, p.height - 80);
+
+      // subtle glow for readability
+      p.fill(255, 255, 180, 80);
+      p.text(p.nf(Math.floor((totalTime - elapsedTime) / 60), 2) + ':' +
+            p.nf(Math.floor((totalTime - elapsedTime) % 60), 2),
+            p.width / 2 + 2, p.height - 78);
+    } else {
+      // when bright, use dark text for contrast
+      p.fill(0);
       let timeLeft = Math.max(0, totalTime - elapsedTime);
       let minutesLeft = Math.floor(timeLeft / 60);
       let secondsLeft = Math.floor(timeLeft % 60);
