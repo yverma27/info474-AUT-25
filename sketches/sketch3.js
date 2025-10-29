@@ -142,10 +142,7 @@ registerSketch('sk3', function (p) {
     const clockX = cx + bookWidth / 2 - 60;
     const clockY = cy - bookHeight * 1.5 - extraOffset;
 
-     // clock background
-    //p.fill(18, 18, 18, 220);
-    //p.stroke(120);
-   // p.strokeWeight(1);
+    // clock background
     p.noStroke();
     p.fill(255);
     p.ellipse(clockX, clockY, clockR * 2, clockR * 2);
@@ -170,6 +167,7 @@ registerSketch('sk3', function (p) {
     p.strokeWeight(2);
     p.line(0, 0, clockR - 10, 0);
     p.pop();
+
 
     // interactive bookmark
     let bookmarkHovered = false;
@@ -233,7 +231,7 @@ registerSketch('sk3', function (p) {
     }
 
 
-    // check if a new flip should start (every full second)
+    // check if a new flip should start (every full minute)
     if (!flipping && !breakMode && msNow - lastFlipTime >= 60000) {
       if (rightCount > 0) {
         flipping = true;
