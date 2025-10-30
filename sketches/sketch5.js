@@ -80,6 +80,15 @@ registerSketch('sk5', function (p) {
     p.text("Academic Performance Impact", 0, 160);
     p.pop();
 
+    // Section 2 - Bar Chart
+    p.push();
+    p.translate(p.width * 0.5 - 200, 80);
+    drawBarChart();
+    p.textAlign(p.CENTER);
+    p.textSize(14);
+    p.text("Sleep Hours vs Addiction Score", 250, 360);
+    p.pop();
+
     
 
   }
