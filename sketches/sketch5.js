@@ -5,6 +5,10 @@ registerSketch('sk5', function (p) {
   let avgSleepByAddiction = [];
   let relationshipData = [];
   let colorScale;
+
+  p.preload = function () {
+    table = p.loadTable('Students Social Media Addiction.csv', 'csv', 'header');
+  }
   
 
   p.setup = function () {
