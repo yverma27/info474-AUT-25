@@ -134,5 +134,25 @@ registerSketch('sk5', function (p) {
     p.text("Addiction Score", 250, 340);
   }
 
+  // Bubble Chart
+  function drawBubbleChart() {
+    for (let i = 0; i < relationshipData.length; i++) {
+      let d = relationshipData[i];
+      let x = p.map(i, 0, relationshipData.length - 1, -100, 100);
+      let y = p.map(d.conflicts, 0, 10, 80, -80);
+      let bubbleSize = p.map(d.addiction, 1, 10, 20, 60);
+      let mentalHealthColor = colorScale[Math.floor(p.map(d.mentalHealth, 1, 10, 0, 9))];
+      p.fill(mentalHealthColor);
+      p.noStroke();
+      p.ellipse(x, y, bubbleSize);
+      p.fill(0);
+      p.textAlign(p.CENTER);
+      p.textSize(10);
+      p.text(d.relation, x, y + bubbleSize / 2 + 12);
+    }
+  }
+
+      
+
   p.windowResized = function () { p.resizeCanvas(p.windowWidth, p.windowHeight); };
 });
