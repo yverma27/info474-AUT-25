@@ -21,7 +21,7 @@ registerSketch('sk5', function (p) {
     p.createCanvas(p.windowWidth, p.windowHeight);
     p.textFont('Arial');
     p.noLoop();
-    colorScale = colorGradient("#ff4b5c", "#4caf50", 10);
+    //colorScale = colorGradient("#ff4b5c", "#4caf50", 10);
     processData();
   };
 
@@ -53,19 +53,19 @@ registerSketch('sk5', function (p) {
       let relation = r.get("Relationship_Status");
       let conflicts = parseInt(r.get("Conflicts_Over_Social_Media"));
       let addiction = parseInt(r.get("Addicted_Score"));
-      let mentalHealth = parseInt(r.get("Mental_Health_Score"));
+      //let mentalHealth = parseInt(r.get("Mental_Health_Score"));
 
-      if (!groups[relation]) groups[relation] = { conflicts: [], addiction: [], mentalHealth: [] };
+      if (!groups[relation]) groups[relation] = { conflicts: [], addiction: [] };
       groups[relation].conflicts.push(conflicts);
       groups[relation].addiction.push(addiction);
-      groups[relation].mentalHealth.push(mentalHealth);
+      //groups[relation].mentalHealth.push(mentalHealth);
     }
 
     for (let k in groups) {
       let c = avg(groups[k].conflicts);
       let a = avg(groups[k].addiction);
-      let m = avg(groups[k].mentalHealth);
-      relationshipData.push({ relation: k, conflicts: c, addiction: a, mentalHealth: m });
+      //let m = avg(groups[k].mentalHealth);
+      relationshipData.push({ relation: k, conflicts: c, addiction: a });
     }
   }
 
