@@ -98,6 +98,21 @@ registerSketch('sk5', function (p) {
     p.text("Conflicts & Wellbeing by Relationship Status", 0, 160);
     p.pop();
 
+  };
+
+  //Pie Chart
+  function drawPieChart() {
+    let total = yesCount + noCount;
+    let yesAngle = (yesCount/total) * p.TWO_PI;
+    p.fill("#2196f3");
+    p.arc(0, 0, 180, 180, 0, yesAngle, p.PIE);
+    p.fill("#cccccc");
+    p.arc(0, 0, 180, 180, yesAngle, p.TWO_PI, p.PIE);
+    p.fill(0);
+    p.textSize(12);
+    p.textAlign(p.LEFT);
+    p.text(`Yes: ${p.nf((yesCount / total) * 100, 2, 1)}%`, 100, -30);
+    p.text(`No: ${p.nf((noCount / total) * 100, 2, 1)}%`, 100, -10);
   }
 
   p.windowResized = function () { p.resizeCanvas(p.windowWidth, p.windowHeight); };
