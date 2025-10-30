@@ -65,6 +65,13 @@ registerSketch('sk5', function (p) {
 
 
   p.draw = function () {
+    p.background(250);
+    p.textAlign(p.CENTER);
+    p.textSize(24);
+    p.fill(0);
+    p.text("Effects of Social Media on Students' Wellbeing", p.width / 2, 40);
+
+    
 
   }
 
