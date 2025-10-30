@@ -152,7 +152,20 @@ registerSketch('sk5', function (p) {
     }
   }
 
-      
+  // helpers
+  function avg(arr) {
+    return arr.reduce((a, b) => a + b, 0) / arr.length;
+  }
+
+  function colorGradient(c1, c2, steps) {
+    let gradient = [];
+    for (let i = 0; i < steps; i++) {
+      let inter = p.lerpColor(p.color(c1), p.color(c2), i / (steps - 1));
+      gradient.push(inter);
+    }
+    return gradient;
+  }
+
 
   p.windowResized = function () { p.resizeCanvas(p.windowWidth, p.windowHeight); };
 });
