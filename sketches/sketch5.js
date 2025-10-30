@@ -4,7 +4,13 @@ registerSketch('sk5', function (p) {
   let yesCount = 0, noCount = 0;
   let avgSleepByAddiction = [];
   let relationshipData = [];
-  let colorScale;
+  let hoverInfo = null;
+  //let colorScale;
+
+  const pieColors = [p.color("#ff6b6b"), p.color("#4dabf7")];
+  const bubbleColors = [p.color("#f94144"), p.color("#f3722c"), p.color("#90be6d")];
+  const relStatuses = ["Single", "In Relationship", "Complicated"];
+  
 
   p.preload = function () {
     table = p.loadTable('Students Social Media Addiction.csv', 'csv', 'header');
