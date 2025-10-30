@@ -41,12 +41,28 @@ registerSketch('sk5', function (p) {
     }
     avgSleepByAddiction.sort((a, b) => a.score - b.score);
 
+    // Section 3 - Bubble Chart Data
+    let groups = {};
+    for (let r of table.rows) {
+      let relation = r.get("Relationship_Status");
+      let conflicts = parseInt(r.get("Conflicts_Over_Social_Media"));
+      let addiction = parseInt(r.get("Addicted_Score"));
+      let mentalHealth = parseInt(r.get("Mental_Health_Score"));
 
+      if (!groups[relation]) groups[relation] = { conflicts: [], addiction: [], mentalHealth: [] };
+      groups[relation].conflicts.push(conflicts);
+      groups[relation].addiction.push(addiction);
+      groups[relation].mentalHealth.push(mentalHealth);
+    }
 
-
-
-
+    for (let k in groups) {
+      let c = avg(groups[k].conflicts);
+      let a = avg(groups[k].addiction);
+      let m = avg(groups[k].mentalHealth);
+      relationshipData.push({ relation: k, conflicts: c, addiction: a, mentalHealth: m });
+    }
   }
+
 
   p.draw = function () {
 
