@@ -71,6 +71,15 @@ registerSketch('sk5', function (p) {
     p.fill(0);
     p.text("Effects of Social Media on Students' Wellbeing", p.width / 2, 40);
 
+    // Section 1 - Pie Chart
+    p.push();
+    p.translate(p.width * 0.2, p.height / 2);
+    drawPieChart();
+    p.textAlign(p.CENTER);
+    p.textSize(14);
+    p.text("Academic Performance Impact", 0, 160);
+    p.pop();
+
     
 
   }
