@@ -89,7 +89,14 @@ registerSketch('sk5', function (p) {
     p.text("Sleep Hours vs Addiction Score", 250, 360);
     p.pop();
 
-    
+    // Section 3 - Bubble Chart
+    p.push();
+    p.translate(p.width * 0.8, p.height / 2);
+    drawBubbleChart();
+    p.textAlign(p.CENTER);
+    p.textSize(14);
+    p.text("Conflicts & Wellbeing by Relationship Status", 0, 160);
+    p.pop();
 
   }
 
