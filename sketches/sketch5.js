@@ -72,6 +72,7 @@ registerSketch('sk5', function (p) {
 
   p.draw = function () {
     p.background(250);
+    hoverInfo = null;
     p.textAlign(p.CENTER);
     p.textSize(24);
     p.fill(0);
@@ -103,6 +104,21 @@ registerSketch('sk5', function (p) {
     p.textSize(14);
     p.text("Conflicts & Wellbeing by Relationship Status", 0, 160);
     p.pop();
+
+
+    // hover feature
+    if (hoverInfo) {
+      p.push();
+      p.fill(255);
+      p.stroke(0);
+      p.rect(hoverInfo.x + 10, hoverInfo.y - 30, 180, 30, 6);
+      p.noStroke();
+      p.fill(0);
+      p.textSize(13);
+      p.textAlign(p.LEFT, p.CENTER);
+      p.text(hoverInfo.text, hoverInfo.x + 20, hoverInfo.y - 15);
+      p.pop();
+    }
 
   };
 
