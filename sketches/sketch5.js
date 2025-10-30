@@ -115,5 +115,24 @@ registerSketch('sk5', function (p) {
     p.text(`No: ${p.nf((noCount / total) * 100, 2, 1)}%`, 100, -10);
   }
 
+  //Bar Chart
+  function drawBarChart() {
+    let maxSleep = Math.max(...avgSleepByAddiction.map(d => d.sleep));
+    let barWidth = 20;
+    for (let i = 0; i < avgSleepByAddiction.length; i++) {
+      let x = i * (barWidth + 8);
+      let y = p.map(avgSleepByAddiction[i].sleep, 0, maxSleep, 300, 0);
+      p.fill("#673ab7");
+      p.rect(x, y, barWidth, 300 - y);
+    }
+    p.fill(0);
+    p.textSize(10);
+    p.textAlign(p.CENTER);
+    for (let i = 0; i < avgSleepByAddiction.length; i++) {
+      p.text(avgSleepByAddiction[i].score, i * (barWidth + 8) + barWidth / 2, 320);
+    }
+    p.text("Addiction Score", 250, 340);
+  }
+
   p.windowResized = function () { p.resizeCanvas(p.windowWidth, p.windowHeight); };
 });
