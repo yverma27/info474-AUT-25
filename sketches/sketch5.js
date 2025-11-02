@@ -102,7 +102,7 @@ registerSketch('sk5', function (p) {
     p.pop();
     p.pop();
 
-    // Section 3 - Bubble Chart
+   /* // Section 3 - Bubble Chart
     p.push();
     p.translate(p.width * 0.8, p.height / 2);
     drawBubbleChart();
@@ -112,7 +112,20 @@ registerSketch('sk5', function (p) {
     p.textStyle(p.ITALIC);
     p.text("Conflicts & Wellbeing by Relationship Status", 0, 200);
     p.pop();
+    p.pop(); */
+
+    // Section 3 - Line Chart
+    p.push();
+    p.translate(p.width * 0.8 - 150, p.height / 2 - 150);
+    drawLineChart();
+    p.textAlign(p.CENTER);
+    p.textSize(14);
+    p.push();
+    p.textStyle(p.ITALIC);
+    p.text("Addiction vs Mental Health Score", 200, 330);
     p.pop();
+    p.pop();
+
 
 
     // hover feature
@@ -242,55 +255,110 @@ registerSketch('sk5', function (p) {
     p.pop();
   }
 
-  // Bubble Chart
-  function drawBubbleChart() {
-    let yMin = -100;
-    let yMax = 100;
-    let xMin = -120;
-    let xMax = 120;
+  // Line chart
+  function drawLineChart() {
+    // Axis ranges
+    let xMin = 0, xMax = 10;
+    let yMin = 0, yMax = 10;
 
-    p.stroke(220);
+    // Chart area dimensions
+    let chartW = 300;
+    let chartH = 250;
+
+    // Prep data
+    let addictionMap = {}; // { score: [mentalHealthValues] }
+
+    for (let r of table.rows) {
+      let addiction = parseFloat(r.get("Addicted_Score"));
+      let mental = parseFloat(r.get("Mental_Health_Score"));
+      if (!isNaN(addiction) && !isNaN(mental)) {
+        if (!addictionMap[addiction]) addictionMap[addiction] = [];
+        addictionMap[addiction].push(mental);
+      }
+    }
+
+    // Compute averages
+    let points = [];
+    for (let score in addictionMap) {
+      let avgMental =
+        addictionMap[score].reduce((a, b) => a + b, 0) / addictionMap[score].length;
+      points.push({ score: parseFloat(score), mental: avgMental });
+    }
+
+    // Sort by addiction score
+    points.sort((a, b) => a.score - b.score);
+
+    // Draw gridlines
+    p.stroke(230);
     p.strokeWeight(1);
-    p.textAlign(p.RIGHT, p.CENTER);
+    p.fill(80);
     p.textSize(10);
-    p.fill(100);
-    for (let i = 0; i <= 10; i += 2){
-      let y = p.map(i, 0, 10, yMax, yMin);
+
+    // Horizontal gridlines + labels
+    for (let i = 0; i <= 10; i++) {
+      let y = p.map(i, yMin, yMax, chartH, 0);
+      p.line(40, y, chartW + 40, y);
       p.noStroke();
-      p.text(i, xMin - 10, y);
-      p.stroke(220);
-      p.line(xMin, y, xMax, y);
+      p.textAlign(p.RIGHT, p.CENTER);
+      p.text(i, 30, y);
+      p.stroke(230);
     }
 
-    /*for (let i = 0; i < relationshipData.length; i++) {
-      let x = p.map(i, 0, relationshipData.length - 1, xMin, xMax);
-      p.line(x, yMin, x, yMax);
-    }*/
-
-    let relationshipColors = {
-      "Single": bubbleColors[0],
-      "In Relationship": bubbleColors[1],
-      "Complicated": bubbleColors[2]
-    };
-
-    for (let i = 0; i < relationshipData.length; i++) {
-      let d = relationshipData[i];
-      let x = p.map(i, 0, relationshipData.length - 1, xMin + 20, xMax - 20);
-      let y = p.map(d.conflicts, 0, 10, yMax, yMin);
-      let bubbleSize = p.map(d.addiction, 1, 10, 30, 70);
-
-      //let mentalHealthColor = colorScale[Math.floor(p.map(d.mentalHealth, 1, 10, 0, 9))];
-
-      let bubbleColor = relationshipColors[d.relation] || bubbleColors[0];
-      p.fill(bubbleColor);
+    // Vertical gridlines + labels
+    for (let i = 0; i <= 10; i++) {
+      let x = p.map(i, xMin, xMax, 40, chartW + 40);
+      p.line(x, chartH, x, 0);
       p.noStroke();
-      p.ellipse(x, y, bubbleSize);
-      p.fill(0);
-      p.textAlign(p.CENTER);
-      p.textSize(11);
-      p.text(d.relation, x, yMax + 20);
+      p.textAlign(p.CENTER, p.TOP);
+      p.text(i, x, chartH + 5);
+      p.stroke(230);
     }
+
+    // Axis labels
+    p.fill(0);
+    p.noStroke();
+    p.textSize(12);
+    p.textAlign(p.CENTER);
+    p.text("Addiction Score", chartW / 2 + 40, chartH + 30);
+    p.push();
+    p.translate(10, chartH / 2);
+    p.rotate(-p.HALF_PI);
+    p.text("Average Mental Health Score", 0, 0);
+    p.pop();
+
+    // Draw chart
+    p.noFill();
+    p.stroke("#6a4c93");
+    p.strokeWeight(2);
+    p.beginShape();
+    for (let pt of points) {
+      let x = p.map(pt.score, xMin, xMax, 40, chartW + 40);
+      let y = p.map(pt.mental, yMin, yMax, chartH, 0);
+      p.vertex(x, y);
+    }
+    p.endShape();
+
+    // Draw points
+    p.fill("#6a4c93");
+    p.noStroke();
+    for (let pt of points) {
+      let x = p.map(pt.score, xMin, xMax, 40, chartW + 40);
+      let y = p.map(pt.mental, yMin, yMax, chartH, 0);
+      p.ellipse(x, y, 7, 7);
+    }
+
+    // Chart title
+    p.fill("#000000");
+    p.textAlign(p.CENTER);
+    p.textSize(14);
+    p.push();
+    p.textStyle(p.ITALIC);
+    p.pop();
   }
+
+
+
+
 
   // helpers
   function avg(arr) {
