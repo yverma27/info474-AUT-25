@@ -86,7 +86,7 @@ registerSketch('sk5', function (p) {
     p.textSize(14);
     p.push();
     p.textStyle(p.ITALIC);
-    p.text("Academic Performance Impact", 0, 200);
+    p.text("Academic Performance Impact", 0, 180);
     p.pop();
     p.pop();
 
@@ -122,7 +122,7 @@ registerSketch('sk5', function (p) {
     p.textSize(14);
     p.push();
     p.textStyle(p.ITALIC);
-    p.text("Addiction vs Mental Health Score", 200, 330);
+    p.text("Addiction vs Mental Health Score", 200, 325);
     p.pop();
     p.pop();
 
