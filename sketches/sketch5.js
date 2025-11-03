@@ -220,8 +220,6 @@ registerSketch('sk5', function (p) {
   }
 
 
-
-
   //Bar Chart
   function drawBarChart() {
     let maxSleep = Math.max(...avgSleepByAddiction.map(d => d.sleep));
@@ -231,11 +229,13 @@ registerSketch('sk5', function (p) {
     p.strokeWeight(1);
     p.textAlign(p.RIGHT, p.CENTER);
     p.fill(0);
+    p.textSize(10);
+
     for (let s = 0; s <= maxSleep; s++){
       let y = p.map(s, 0, maxSleep, 300, 0);
       p.line(0, y, avgSleepByAddiction.length * (barWidth + 8), y);
       p.noStroke();
-      p.text(s, -5, y);
+      p.text(s.toFixed(0), -5, y);
       p.stroke(200);
     }
 
@@ -247,6 +247,7 @@ registerSketch('sk5', function (p) {
       p.noStroke();
       p.rect(x, y, barWidth, 300 - y);
     }
+
     p.fill(0);
     p.textSize(10);
     p.textAlign(p.CENTER);
