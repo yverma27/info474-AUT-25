@@ -1,4 +1,4 @@
-// Example 2
+// HWK. 5 Narrative Visualization 
 registerSketch('sk5', function (p) {
   let table;
   let yesCount = 0, noCount = 0;
@@ -124,6 +124,15 @@ registerSketch('sk5', function (p) {
     p.textStyle(p.ITALIC);
     p.text("Addiction vs Mental Health Score", 200, 330);
     p.pop();
+    p.pop();
+
+    // Section dividers
+    p.push();
+    p.stroke(180);
+    p.strokeWeight(1);
+    p.drawingContext.setLineDash([6, 6]);
+    p.line(p.width * 0.33, 100, p.width * 0.33, p.height - 100);  // Divider 1
+    p.line(p.width * 0.66, 100, p.width * 0.66, p.height - 100);  // Divider 2
     p.pop();
 
 
