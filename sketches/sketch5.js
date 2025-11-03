@@ -8,8 +8,8 @@ registerSketch('sk5', function (p) {
   let colorScale;
 
   const pieColors = [p.color("#ff6b6b"), p.color("#4dabf7")];
-  const bubbleColors = [p.color("#f94144"), p.color("#f3722c"), p.color("#90be6d")];
-  const relStatuses = ["Single", "In Relationship", "Complicated"];
+  //const bubbleColors = [p.color("#f94144"), p.color("#f3722c"), p.color("#90be6d")];
+  //const relStatuses = ["Single", "In Relationship", "Complicated"];
   
 
   p.preload = function () {
@@ -92,27 +92,17 @@ registerSketch('sk5', function (p) {
 
     // Section 2 - Bar Chart
     p.push();
-    p.translate(p.width * 0.5 - 200, p.height / 2 - 200);
+    p.translate(p.width * 0.5 - 150, p.height / 2 - 200);
     drawBarChart();
+    p.pop();
     p.textAlign(p.CENTER);
     p.textSize(14);
     p.push();
     p.textStyle(p.ITALIC);
-    p.text("Sleep Hours vs Addiction Score", 200, 380);
+    p.text("Sleep Hours vs Addiction Score", p.width * 0.5, p.height / 2 + 180);
     p.pop();
-    p.pop();
+    //p.pop();
 
-   /* // Section 3 - Bubble Chart
-    p.push();
-    p.translate(p.width * 0.8, p.height / 2);
-    drawBubbleChart();
-    p.textAlign(p.CENTER);
-    p.textSize(14);
-    p.push();
-    p.textStyle(p.ITALIC);
-    p.text("Conflicts & Wellbeing by Relationship Status", 0, 200);
-    p.pop();
-    p.pop(); */
 
     // Section 3 - Line Chart
     p.push();
@@ -167,29 +157,17 @@ registerSketch('sk5', function (p) {
     if (mouseAngle < 0) mouseAngle += p.TWO_PI;
 
     let startAngle = 0;
+    let localHover = null;
 
     for (let i = 0; i < values.length; i++) {
       const angle = (values[i] / total) * p.TWO_PI;
       const endAngle = startAngle + angle;
 
       // Check if hovering over this slice
-      let isHovering = false;
-      if (mouseDist <= radius) {
-        // Handle angle wrapping
-        if (endAngle > p.TWO_PI) {
-          // Slice crosses the 0/2π boundary
-          isHovering = (mouseAngle >= startAngle && mouseAngle <= p.TWO_PI) || 
-                       (mouseAngle >= 0 && mouseAngle <= (endAngle - p.TWO_PI));
-        } else {
-          // Normal case
-          isHovering = mouseAngle >= startAngle && mouseAngle <= endAngle;
-        }
-      }
-
+      let isHovering = mouseDist <= radius && mouseAngle >= startAngle && mouseAngle <= endAngle;
+      
       if (isHovering) {
-        hoverInfo = {
-          x: p.mouseX,
-          y: p.mouseY,
+        localHover = {
           text: `${labels[i]}: ${(values[i] / total * 100).toFixed(1)}%`
         };
         p.fill(pieColors[i]);
@@ -197,8 +175,7 @@ registerSketch('sk5', function (p) {
         p.strokeWeight(3);
       } else {
         p.fill(pieColors[i]);
-        p.stroke(255);
-        p.strokeWeight(1);
+        p.noStroke();
       }
 
       // Draw the slice
@@ -214,7 +191,17 @@ registerSketch('sk5', function (p) {
       p.rect(legendX, legendY + i * 22, 14, 14);
       p.fill(0);
       p.textAlign(p.LEFT, p.CENTER);
+      p.textSize(12);
       p.text(labels[i], legendX + 20, legendY + i * 22 + 7);
+    }
+
+    // Tooltip (show above everything)
+    if (localHover) {
+      hoverInfo = {
+        x: p.mouseX,
+        y: p.mouseY,
+        text: localHover.text
+      };
     }
 
   }
@@ -365,9 +352,6 @@ registerSketch('sk5', function (p) {
     p.textStyle(p.ITALIC);
     p.pop();
   }
-
-
-
 
 
   // helpers
