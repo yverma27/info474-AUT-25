@@ -187,6 +187,9 @@ registerSketch('sk5', function (p) {
     let maxSleep = Math.max(...avgSleepByAddiction.map(d => d.sleep));
     let barWidth = 20;
 
+    let highestScore = Math.max(...avgSleepByAddiction.map(d => d.score));
+    let highestBar = avgSleepByAddiction.find(d => d.score === highestScore);
+
     p.textSize(12);
     for (let s = 0; s <= maxSleep; s++) {
       let y = p.map(s, 0, maxSleep, 300, 0);
@@ -223,7 +226,32 @@ registerSketch('sk5', function (p) {
       p.fill(0);
       p.textAlign(p.CENTER);
       p.text(avgSleepByAddiction[i].score, x + barWidth / 2, 320);
+
+      // --- Annotation for highest addiction score bar ---
+      if (avgSleepByAddiction[i].score === highestBar.score) {
+        p.push();
+        let noteX = x + 40;
+        let noteY = y - 40;
+
+        // Draw connector line
+        p.stroke("#d32f2f");
+        p.strokeWeight(1.5);
+        p.line(x + barWidth / 2, y + 5, noteX, noteY + 25);
+
+        // Draw annotation box
+        p.noStroke();
+        p.fill("#fff5f5");
+        p.rect(noteX, noteY, 190, 40, 8);
+
+        // Text inside annotation
+        p.fill("#d32f2f");
+        p.textAlign(p.LEFT, p.TOP);
+        p.textSize(11);
+        p.text("Students with higher addiction\nscores tend to have lower sleep hours", noteX + 8, noteY + 6);
+        p.pop();
+      }
     }
+
 
     p.textSize(12);
     p.push();
