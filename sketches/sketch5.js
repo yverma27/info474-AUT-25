@@ -71,7 +71,7 @@ registerSketch('sk5', function (p) {
     p.fill(0);
     p.text("Effects of Social Media on Students' Wellbeing", p.width / 2, 40);
 
-    // ---------------- Pie Chart ----------------
+    // Pie Chart
     p.push();
     p.translate(p.width * 0.2, p.height / 2);
     drawPieChart();
@@ -83,7 +83,7 @@ registerSketch('sk5', function (p) {
     p.pop();
     p.pop();
 
-    // ---------------- Bar Chart ----------------
+    // Bar Chart
     p.push();
     p.translate(p.width * 0.5 - 150, p.height / 2 - 200);
     drawBarChart();
@@ -95,7 +95,7 @@ registerSketch('sk5', function (p) {
     p.text("Sleep Hours vs Addiction Score", p.width * 0.5, p.height / 2 + 180);
     p.pop();
 
-    // ---------------- Line Chart ----------------
+    // Line Chart
     p.push();
     p.translate(p.width * 0.8 - 150, p.height / 2 - 150);
     drawLineChart();
@@ -107,7 +107,7 @@ registerSketch('sk5', function (p) {
     p.pop();
     p.pop();
 
-    // ---------------- Section Dividers ----------------
+    // Lines dividing sections
     p.push();
     p.stroke(180);
     p.strokeWeight(1);
@@ -116,7 +116,7 @@ registerSketch('sk5', function (p) {
     p.line(p.width * 0.66, 100, p.width * 0.66, p.height - 100);  // Divider 2
     p.pop();
 
-    // ---------------- Hover Tooltip ----------------
+    // Hovering tooltip
     if (hoverInfo) {
       p.push();
       p.fill(255);
@@ -131,7 +131,7 @@ registerSketch('sk5', function (p) {
     }
   };
 
-  // ---------------- Pie Chart ----------------
+  // Draw Pie Chart code
   function drawPieChart() {
     let total = yesCount + noCount;
     const values = [yesCount, noCount];
@@ -182,7 +182,7 @@ registerSketch('sk5', function (p) {
     }
   }
 
-  // ---------------- Bar Chart ----------------
+  // Draw bar chart code
   function drawBarChart() {
     let maxSleep = Math.max(...avgSleepByAddiction.map(d => d.sleep));
     let barWidth = 20;
@@ -235,7 +235,7 @@ registerSketch('sk5', function (p) {
     p.text("Addiction Score", 200, 350);
   }
 
-  // ---------------- Line Chart ----------------
+  // Draw line chart code
   function drawLineChart() {
     let xMin = 0, xMax = 10, yMin = 0, yMax = 10;
     let chartW = 300, chartH = 250;
@@ -306,8 +306,10 @@ registerSketch('sk5', function (p) {
 
   }
 
-  // ---------------- Helpers ----------------
-  function avg(arr) { return arr.reduce((a, b) => a + b, 0) / arr.length; }
+  // Helper code
+  function avg(arr) { 
+    return arr.reduce((a, b) => a + b, 0) / arr.length; 
+  }
 
   function colorGradient(c1, c2, steps) {
     let gradient = [];
