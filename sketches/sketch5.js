@@ -227,7 +227,7 @@ registerSketch('sk5', function (p) {
       p.textAlign(p.CENTER);
       p.text(avgSleepByAddiction[i].score, x + barWidth / 2, 320);
 
-      // --- Annotation for highest addiction score bar ---
+      // Annotation for highest addiction score bar 
       if (avgSleepByAddiction[i].score === highestBar.score) {
         p.push();
         let noteX = x + 40;
@@ -331,6 +331,8 @@ registerSketch('sk5', function (p) {
     p.rotate(-p.HALF_PI);
     p.text("Average Mental Health Score", 0, 0);
     p.pop();
+
+    
 
   }
 
