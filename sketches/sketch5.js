@@ -332,7 +332,28 @@ registerSketch('sk5', function (p) {
     p.text("Average Mental Health Score", 0, 0);
     p.pop();
 
-    
+    // Annotation 
+    let highest = linePoints.reduce((a, b) => a.mental > b.mental ? a : b);
+    let lowest = linePoints.reduce((a, b) => a.mental < b.mental ? a : b);
+
+    let xHigh = p.map(highest.score, xMin, xMax, 40, chartW + 40);
+    let yHigh = p.map(highest.mental, yMin, yMax, chartH, 0);
+    let xLow = p.map(lowest.score, xMin, xMax, 40, chartW + 40);
+    let yLow = p.map(lowest.mental, yMin, yMax, chartH, 0);
+
+    // Annotation lines
+    p.stroke("#f94144");
+    p.strokeWeight(1);
+    p.line(xHigh, yHigh, xHigh + 60, yHigh - 25);
+    p.line(xLow, yLow, xLow + 60, yLow + 25);
+
+    // Annotation text
+    p.noStroke();
+    p.fill("#f94144");
+    p.textSize(11);
+    p.textAlign(p.LEFT);
+    p.text("Lower addiction → Higher mental health", xHigh + 65, yHigh - 30);
+    p.text("Higher addiction → \nLower mental health", xLow + 65, yLow + 30);
 
   }
 
