@@ -103,6 +103,7 @@ registerSketch('sk5', function (p) {
     p.textSize(14);
     p.push();
     p.textStyle(p.ITALIC);
+    p.fill(0);
     p.text("Addiction vs Mental Health Score", 200, 325);
     p.pop();
     p.pop();
